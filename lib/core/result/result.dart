@@ -180,3 +180,10 @@ class InvalidTimingException extends AppError {
 /// 提供一个非 const 工厂以支持运行时动态字段（如 request 状态）。
 /// 推荐使用 const 构造；该工厂仅在 const 不可用时使用。
 AppError schemaMismatch(String v) => SchemaMismatchException(v);
+
+/// V2 新增：原生层（Oboe/AAudio/MethodChannel）桥接失败。
+class NativeBridgeException extends AppError {
+  final String nativeCode;
+  const NativeBridgeException(this.nativeCode, String message)
+      : super(code: 'native_bridge', message: '$nativeCode: $message');
+}
