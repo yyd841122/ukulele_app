@@ -40,6 +40,9 @@ dependencies:
   get_it: ^7.7.0
   meta: ^1.15.0
 
+  # Phase 4 新增：FFI 强类型契约所需 native 内存分配 (calloc / malloc / free)
+  ffi: ^2.1.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

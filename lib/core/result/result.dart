@@ -187,3 +187,40 @@ class NativeBridgeException extends AppError {
   const NativeBridgeException(this.nativeCode, String message)
       : super(code: 'native_bridge', message: '$nativeCode: $message');
 }
+
+// ── FFI Bridge（Phase 4 新增）────────────────────────────────
+/// FFI 不可用：当前平台未携带 liboboe_bridge.so 或加载失败。
+class FfiUnavailableException extends AppError {
+  const FfiUnavailableException(String reason)
+      : super(
+          code: 'ffi_unavailable',
+          message: 'liboboe_bridge.so unavailable: $reason',
+        );
+}
+
+/// FFI 函数返回值非 0 错误。
+class FfiCallFailedException extends AppError {
+  final int errorCode;
+  final String nativeFunction;
+  const FfiCallFailedException({
+    required this.errorCode,
+    required this.nativeFunction,
+  }) : super(
+          code: 'ffi_call_failed',
+          message: '$nativeFunction returned error code $errorCode',
+        );
+}
+
+/// 物理时间抖动超出阈值（AudioClock 检测到 stddev > 5ms）。
+class JitterOverflowException extends AppError {
+  final double stdDevMs;
+  final int sampleCount;
+  JitterOverflowException({
+    required this.stdDevMs,
+    required this.sampleCount,
+  }) : super(
+          code: 'audio_clock_jitter_overflow',
+          message: 'AudioClock tick jitter stddev=${stdDevMs.toStringAsFixed(3)}ms '
+              'over $sampleCount samples exceeded 5ms budget',
+        );
+}
